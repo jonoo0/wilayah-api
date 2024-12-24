@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from prisma import Prisma
-from typing import Dict, Optional
+from typing import Dict
 
 prisma = Prisma()
 
@@ -13,14 +13,6 @@ async def lifespan(app: FastAPI):
     await prisma.disconnect()
 
 app = FastAPI(lifespan=lifespan)
-
-# @app.on_event("startup")
-# async def startup():
-#     await prisma.connect()
-
-# @app.on_event("shutdown")
-# async def shutdown():
-#     await prisma.disconnect()
 
 @app.get("/")
 async def read_root() -> Dict[str, str]:
@@ -37,7 +29,7 @@ async def get_wilayah(wilayah: str) -> str:
             where={
                 "nama": wilayah
             },
-            select={
+            include={
                 "kode": True,
                 "nama": True
             }
@@ -57,7 +49,7 @@ async def get_adm2_wilayah(wilayah: str) -> str:
             where={
                 "nama": wilayah.upper()
             },
-            select={
+            include={
                 "kode": True,
                 "nama": True
             }
@@ -77,7 +69,7 @@ async def get_kode_wilayah(kode: str) -> str:
             where={
                 "kode": kode
             },
-            select={
+            include={
                 "kode": True,
                 "nama": True
             }
