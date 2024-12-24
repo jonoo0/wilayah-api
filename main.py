@@ -28,10 +28,6 @@ async def get_wilayah(wilayah: str) -> str:
         result = await prisma.wilayah.find_many(
             where={
                 "nama": wilayah
-            },
-            include={
-                "kode": True,
-                "nama": True
             }
         )
 
@@ -48,10 +44,6 @@ async def get_adm2_wilayah(wilayah: str) -> str:
         result = await prisma.wilayah.find_many(
             where={
                 "nama": wilayah.upper()
-            },
-            include={
-                "kode": True,
-                "nama": True
             }
         )
 
@@ -68,10 +60,6 @@ async def get_kode_wilayah(kode: str) -> str:
         result = await prisma.wilayah.find_many(
             where={
                 "kode": kode
-            },
-            include={
-                "kode": True,
-                "nama": True
             }
         )
 
